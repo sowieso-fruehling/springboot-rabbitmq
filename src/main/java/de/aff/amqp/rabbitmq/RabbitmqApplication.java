@@ -22,7 +22,7 @@ public class RabbitmqApplication {
 	//We will listen for messages on the "spring-boot" queue
 	final static String QUEUE_NAME = "spring-boot";
 
-	final static String ROUTING_KEY = "spring-boot";
+	private final static String ROUTING_KEY = "foo.bar";
 
 	final static String EXCHANGE_NAME = "spring-boot-exchange";
 

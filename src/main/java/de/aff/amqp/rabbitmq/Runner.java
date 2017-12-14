@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -19,11 +21,16 @@ public class Runner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        Map<String, String> myMap = new HashMap<>();
+        myMap.put("id", "123");
+        myMap.put("name", "Mister X");
+
+
         System.out.println("Sending message...");
         //we have to set exchange, otherwise default exchange will be used ( and this will actually work if
         // routing key is the same as the queue's name
         rabbitTemplate.setExchange(RabbitmqApplication.EXCHANGE_NAME);
-        rabbitTemplate.convertAndSend(RabbitmqApplication.QUEUE_NAME, "Hello from RabbitMQ!");
+        rabbitTemplate.convertAndSend(RabbitmqApplication.QUEUE_NAME, myMap);
         receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
         context.close();
     }
