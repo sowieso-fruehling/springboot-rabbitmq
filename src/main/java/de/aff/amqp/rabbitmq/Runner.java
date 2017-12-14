@@ -20,7 +20,10 @@ public class Runner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Sending message...");
-        rabbitTemplate.convertAndSend(RabbitmqApplication.queueName, "Hello from RabbitMQ!");
+        //we have to set exchange, otherwise default exchange will be used ( and this will actually work if
+        // routing key is the same as the queue's name
+        rabbitTemplate.setExchange(RabbitmqApplication.EXCHANGE_NAME);
+        rabbitTemplate.convertAndSend(RabbitmqApplication.QUEUE_NAME, "Hello from RabbitMQ!");
         receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
         context.close();
     }
